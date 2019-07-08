@@ -1,0 +1,3 @@
+[submodule "docker-image-apache2-shibboleth"]
+	path = docker-image-apache2-shibboleth
+	url = https://github.com/fgan1/docker-image-apache2-shibboleth
