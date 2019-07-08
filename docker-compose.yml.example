@@ -10,7 +10,7 @@ services:
       - EXTERNAL_CONF_SHIBBOLETH_AUTH_PRIVATE_KEY_NAME=
       - EXTERNAL_CONF_AUTHENTICATION_SERVICE_PUBLIC_KEY_NAME=
       - EXTERNAL_CONF_SHIBBOLETH_AUTH_MACHINE_IP=
-      - EXTERNAL_CONF_SSH_PRIVATE_KEY=
+      - EXTERNAL_CONF_SSH_PRIVATE_KEY_NAME=
     ports:
       - 9000:9000
     depends_on:
@@ -41,9 +41,9 @@ services:
       - "443:443"
       - "35022:22"
     volumes:
-      - "./files-conf-static:/root/files-conf-static"
-      - "./scripts:/root/scripts"
-      - "./files-conf-dinamic:/root/files-conf-dinamic"
+      - "./docker-image-apache2-shibboleth/files-conf-static:/root/files-conf-static"
+      - "./docker-image-apache2-shibboleth/scripts:/root/scripts"
+      - "./docker-image-apache2-shibboleth/files-conf-dinamic:/root/files-conf-dinamic"
     command: >
       /bin/bash -c "bash /root/scripts/configure.sh && sleep infinity"
     networks:
