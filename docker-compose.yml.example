@@ -4,12 +4,25 @@ services:
     image: fgan/shibboleth-authentication-application
     container_name: shibboleth-authentication-application
     tty: true
+    environment:
+      - EXTERNAL_CONF_SHIBBOLETH_AUTH_APP_PORT=
+      - EXTERNAL_CONF_FOGBOW_GUI_URL
+      - EXTERNAL_CONF_SHIBBOLETH_AUTH_PRIVATE_KEY_NAME=
+      - EXTERNAL_CONF_AUTHENTICATION_SERVICE_PUBLIC_KEY_NAME=
+      - EXTERNAL_CONF_SHIBBOLETH_AUTH_MACHINE_IP=
+      - EXTERNAL_CONF_SSH_PRIVATE_KEY=
     ports:
       - 9000:9000
+    depends_on:
+      - apache-shibboleth
     volumes:
-      - "./files-conf-static:/root/files-conf-static"
-      - "./scripts:/root/scripts"
-      - "./files-conf-dinamic:/root/files-conf-dinamic"      
+      - "./files-conf-static:/home/ubuntu/files-conf-static"
+      - "./scripts:/home/ubuntu/scripts"
+      - "./files-conf-dinamic:/home/ubuntu/files-conf-dinamic"     
+    command: >
+      /bin/bash -c "bash /root/scripts/configure.sh && sleep infinity" 
+    networks:
+      - default    
 
   apache-shibboleth:
     image: fgan/apache-shibboleth-fogbow
@@ -33,4 +46,9 @@ services:
       - "./files-conf-dinamic:/root/files-conf-dinamic"
     command: >
       /bin/bash -c "bash /root/scripts/configure.sh && sleep infinity"
+    networks:
+      - default
 
+networks:
+  default:
+    driver: custom-driver-1
